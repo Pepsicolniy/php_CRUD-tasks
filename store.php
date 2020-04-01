@@ -1,13 +1,14 @@
 <?php
 
-//Сохранение новой задачи
-function AddTask($data) {
-    $pdo = new PDO("mysql:host=localhost; dbname=tasks", "root", "");
-    $sql = 'INSERT INTO tasks (title,content) VALUES (:title,:content)';
-    $statement = $pdo->prepare($sql);
-    $statement->execute($data);
+require 'database/QueryBuilder.php';
 
-    header('Location: /'); exit;
-}
+$db = new QueryBuilder;
 
-AddTask($_POST);
+$data = [
+    'title' => $_POST[' title'],
+    'content' =>  $_POST[' content']
+];
+
+$db->store("tasks",$_POST);
+
+header('Location: /'); exit;

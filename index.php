@@ -1,18 +1,10 @@
 <?php
 
-function GetAllTasks() {
+require 'database/QueryBuilder.php';
 
-    $pdo = new PDO("mysql:host=localhost;dbname=tasks","root","");
-    $sql = 'SELECT * FROM tasks';
-    $statement = $pdo->prepare($sql);
-    $statement->execute();
-    $tasks = $statement->fetchAll(PDO::FETCH_ASSOC);
+$db = new QueryBuilder();
 
-    return $tasks;
-};
-
-$tasks = GetAllTasks();
-
+$tasks = $db->all("tasks");
 ?><!doctype html>
 <html lang="en">
 <head>
@@ -45,7 +37,7 @@ $tasks = GetAllTasks();
                             <td><?=$task['title']?></td>
                             <td>
                                 <a href="show.php?id=<?=$task['id']?>" class="btn btn-info">Show</a>
-                                <a href="edit.php?id=<?=$task['id']?>" class="btn btn-warning">Edit </a>
+                                <a href="edit.php?id=<?=$task['id']?>" class="btn btn-warning">Edit</a>
                                 <a onclick="return confirm('are you sure?')" href="delete.php?id=<?=$task['id']?>" class="btn btn-danger">Delete</a>
                             </td>
                         </tr>
